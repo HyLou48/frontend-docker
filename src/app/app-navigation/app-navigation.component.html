@@ -1,0 +1,78 @@
+<mat-sidenav-container class="sidenav-container">
+    <!-- Sidenav gauche -->
+    <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+        [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
+        <mat-toolbar> <img src="assets/images/Logo-Pivot.png" alt="logo" class="logo"></mat-toolbar>
+        <mat-nav-list>
+            <a mat-list-item [ngClass]="{'active': activeMenuItem === 'accueil'}" (click)="selectMenuItem('accueil')"
+                routerLink="/accueil">
+                <mat-icon class="mat-18">home</mat-icon>&nbsp;&nbsp;&nbsp;
+                Accueil
+            </a>
+            <a mat-list-item [ngClass]="{'active': activeMenuItem === 'message'}" (click)="selectMenuItem('message')"
+                routerLink="/message">
+                <mat-icon class="mat-18">message</mat-icon>&nbsp;&nbsp;&nbsp;
+                Notification
+            </a>
+            <a mat-list-item [ngClass]="{'active': activeMenuItem === 'parametre'}"
+                (click)="selectMenuItem('parametre')" routerLink="/parametre">
+                <mat-icon class="mat-18">settings</mat-icon>&nbsp;&nbsp;&nbsp;
+                Paramètre
+            </a>
+            <a mat-list-item [ngClass]="{'active': activeMenuItem === 'historique'}"
+                (click)="selectMenuItem('historique')" routerLink="/historique">
+                <mat-icon class="mat-18">history</mat-icon>&nbsp;&nbsp;&nbsp;
+                Historique
+            </a>
+            <a mat-list-item [ngClass]="{'active': activeMenuItem === 'about'}" (click)="selectMenuItem('about')"
+                routerLink="/about">
+                <mat-icon class="mat-18">perm_phone_msg</mat-icon>&nbsp;&nbsp;&nbsp;
+                About
+            </a>
+        </mat-nav-list>
+
+    </mat-sidenav>
+    <!-- Contenu principal  -->
+    <mat-sidenav-content>
+        <mat-toolbar color="primary">
+            <!-- Bouton de basculement du sidenav  -->
+            <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"
+                *ngIf="isHandset$ | async">
+                <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+            </button>
+            <span class="dashboard-title">Text Messaging</span>
+
+            <!-- Icones dans la barre d'outils  -->
+            <div class="icons-container">
+                <mat-icon class="notifications">notifications</mat-icon>
+                <mat-icon class="account_circle" [matMenuTriggerFor]="accountMenu"
+                    aria-controls="accountMenu">account_circle</mat-icon>
+            </div>
+        </mat-toolbar>
+
+        <!-- Menu contextuel pour le compte utilisateur -->
+        <mat-menu #accountMenu="matMenu">
+            <button mat-menu-item [ngClass]="{'active': activeMenuItem === 'profil'}" routerLink="/profil"
+                (click)="selectMenuItem('profil')">
+                <mat-icon>account_circle</mat-icon> Profil
+            </button>
+            <button mat-menu-item [ngClass]="{'active': activeMenuItem === 'parametre'}" routerLink="/parametre"
+                (click)="selectMenuItem('parametre')">
+                <mat-icon>settings</mat-icon> Paramètres
+            </button>
+            <button mat-menu-item [ngClass]="{'active': activeMenuItem === 'admin'}" routerLink="/admin"
+                (click)="selectMenuItem('admin')">
+                <mat-icon>person</mat-icon> Administrateur
+            </button>
+            <button mat-menu-item [ngClass]="{'active': activeMenuItem === 'deconnexion'}" routerLink="/login"
+                (click)="selectMenuItem('deconnexion')">
+                <mat-icon>exit_to_app</mat-icon> Déconnexion
+            </button>
+        </mat-menu>
+
+        <!-- Contenu principal de l'application -->
+        <app-dashboard></app-dashboard>
+
+    </mat-sidenav-content>
+
+</mat-sidenav-container>
